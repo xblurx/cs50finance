@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+
+    {% if not data %}
+
+    <p class="cash">No transactions in your portfolio yet.</p>
+    
+    {% else %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Ticker</th>
+                <th scope="col">Name</th>
+                <th scope="col">Shares</th>
+                <th scope="col">Price</th>
+                <th scope="col">Transacted</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for x in data %}
+            <tr>
+
+                {% for value in x.values() %}
+
+                        <td>{{ value }}</td>
+
+                {% endfor %}
+            </tr>
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+    
+    {% endif %}
+
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Portfolio
+{% endblock %}
+
+{% block main %}
+
+    {% if not data %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Ticker</th>
+                <th scope="col">Name</th>
+                <th scope="col">Shares</th>
+                <th scope="col">Price</th>
+                <th scope="col">TOTAL</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td colspan="4"></td>
+                <td><b>{{ total }}</b></td>
+            </tr>
+        </tfoot>
+        <tbody>
+            <tr>
+                <td colspan="4" style="text-align:left">CASH</td>
+                <td>{{ cash }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p class="cash">Currently you do not own any stocks.</p>
+
+    {% else %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Ticker</th>
+                <th scope="col">Name</th>
+                <th scope="col">Shares</th>
+                <th scope="col">Price</th>
+                <th scope="col">TOTAL</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <td colspan="4"></td>
+                <td><b>{{ total }}</b></td>
+            </tr>
+        </tfoot>
+        <tbody>
+            {% for x in data %}
+            <tr>
+                {% for value in x.values() %}
+                    <td>{{ value }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="4" style="text-align:left">CASH</td>
+                <td>{{ cash }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!--<p class="cash" style="text-align:right;"><b>Cash left:</b> {{ cash }}<br>-->
+    <!--                                         <b>Total value:</b> {{ total }}</p>-->
+
+    {% endif %}
+
+
+
+{% endblock %}

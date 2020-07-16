@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Buy
+{% endblock %}
+
+{% block main %}
+    <script>
+        function greet()
+        {
+            let ticker = document.querySelector("#ticker").value;
+            console.log(ticker);
+            let shares = document.querySelector("#shares").value;
+            const proxyurl = "https://cors-anywhere.herokuapp.com/";
+            const url = `https://cloud-sse.iexapis.com/stable/stock/${encodeURIComponent(ticker).replace(/%20/g, "+")}/quote?token=pk_42d79e0f5b204843aeb353f495fb493f`; // site that doesn’t send Access-Control-*
+            fetch(proxyurl + url)  
+              .then(  
+                function(response) {  
+                  if (response.status !== 200) {  
+                    console.log('Looks like there was a problem. Status Code: ' +  
+                      response.status);  
+                    return;  
+                  }
+            
+                  // Examine the text in the response
+                  response.json().then(function(data) {  
+                    let price = data['latestPrice'];
+                    let company = data['companyName'];
+                    alert(`1 share of ${ticker.toUpperCase()}, ${company} costs $${price} per share, total will be $${shares * price}`);
+                  });  
+                }  
+              )  
+              .catch(function(err) {  
+                console.log('Fetch Error :-S', err);  
+              });
+          return false;
+        }
+    </script>
+
+    <form action="/buy" method="post">
+        <div class="form-group">
+            <input autocomplete="off" id="ticker" autofocus class="form-control" name="ticker" placeholder="Ticker, i.e: AAPL" type="text">
+        </div>
+        
+        <div class="form-group">
+            <input class="form-control" id="shares" name="amount" placeholder="Amount" type="text">
+        </div>
+        <button
+                class="btn btn-outline-primary"
+                name="submit_button"
+                type="button"
+                onclick="return greet();"
+                value="quote">
+            Search
+        </button>
+        <button class="btn btn-primary" type="submit" name="submit_button" value="buy">Buy</button>
+    </form>
+    
+{% endblock %}
